@@ -1,3 +1,7 @@
+"""
+This module trains a linear regression model on dog data to predict their prices.
+"""
+
 import sqlite3
 import pandas as pd
 from sklearn.linear_model import LinearRegression
@@ -6,7 +10,7 @@ from sklearn.linear_model import LinearRegression
 conn = sqlite3.connect('dogs.db')
 
 # Fetch data from the database into a Pandas dataframe
-data = pd.read_sql_query('SELECT weight, age, color, price FROM dogs', conn)
+data = pd.read_sql_query('SELECT Weight, Age, Color, Price FROM dogs', conn)
 
 # Split the data into training and testing sets
 X_train = data[['weight', 'age', 'color']]
