@@ -1,0 +1,26 @@
+import sqlite3
+import pandas as pd
+from sklearn.linear_model import LinearRegression
+
+# Connect to the SQLite database
+conn = sqlite3.connect('dogs.db')
+
+# Fetch data from the database into a Pandas dataframe
+data = pd.read_sql_query('SELECT weight, age, color, price FROM dogs', conn)
+
+# Split the data into training and testing sets
+X_train = data[['weight', 'age', 'color']]
+y_train = data['price']
+
+# Create a linear regression model
+model = LinearRegression()
+
+# Train the model
+model.fit(X_train, y_train)
+
+# Use the model to predict the price of a new dog
+X_test = [[25, 0.5, 'red']]
+price = model.predict(X_test)
+
+# Print the predicted price
+print("The predicted price of the dog is $", round(price[0]))
