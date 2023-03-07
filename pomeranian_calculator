@@ -10,11 +10,14 @@ from sklearn.linear_model import LinearRegression
 conn = sqlite3.connect('dogs.db')
 
 # Fetch data from the database into a Pandas dataframe
-data = pd.read_sql_query('SELECT Weight, Age, Color, Price FROM dogs', conn)
+data = pd.read_sql_query('''SELECT Age, Gender, Coat_Color, Pedigree, Location,
+                            Breeder_Reputation, Size, Health, Training, Price
+                            FROM dogs''', conn)
 
 # Split the data into training and testing sets
-X_train = data[['weight', 'age', 'color']]
-y_train = data['price']
+X_train = data[['Age', 'Gender', 'Coat_Color', 'Pedigree', 'Location',
+                'Breeder_Reputation', 'Size', 'Health', 'Training']]
+y_train = data['Price']
 
 # Create a linear regression model
 model = LinearRegression()
@@ -23,8 +26,9 @@ model = LinearRegression()
 model.fit(X_train, y_train)
 
 # Use the model to predict the price of a new dog
-X_test = [[25, 0.5, 'red']]
-price = model.predict(X_test)
+X_test = [[2, 'Male', 'Orange', 'AKC', 'New York',
+           4, 'Small', 'Healthy', 'Obedience trained']]
+price = model.predict([X_test])[0]
 
 # Print the predicted price
-print("The predicted price of the dog is $", round(price[0]))
+print("The predicted price of the dog is $", round(price))
